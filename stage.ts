@@ -101,7 +101,6 @@ class Menu extends Stage {
         this.entries = [];
         this.entryDotBrightness =50;
         this.iconBrightness = 200;
-        this.player.shootingSpeed = 3;
     }
 
     startLoop(): MenuEntry {

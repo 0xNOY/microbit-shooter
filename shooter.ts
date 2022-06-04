@@ -6,7 +6,7 @@ enum RemotePlayerCommands {
 
 class Player {
     position: number[];
-    moveSpeed: number;
+    movingSpeed: number;
     shootingSpeed: number;
     brightness: number;
     isEnd: boolean;
@@ -15,7 +15,7 @@ class Player {
 
     constructor() {
         this.position = [2, 4];
-        this.moveSpeed = 6;
+        this.movingSpeed = 4;
         this.shootingSpeed = 1.5;
         this.brightness = 100;
         this.isEnd = false;
@@ -31,7 +31,7 @@ class Player {
     startMovingLoop() {
         while (!this.isEnd) {
             this.movingAction();
-            basic.pause(1000 / this.moveSpeed);
+            basic.pause(1000 / this.movingSpeed);
         }
     }
 
@@ -98,12 +98,27 @@ class Bot extends Player {
         this.position = [2, 0];
     }
 
+    startLoopInBackground(bullets: Bullet[]) {
+        basic.pause(500);
+        super.startLoopInBackground(bullets);
+    }
+
     movingAction() {
         let movingFlag = randint(1, 100);
-        if (movingFlag <= 40) {
+        if (movingFlag <= 25) {
             this.goRight();
-        } else if (movingFlag <= 80) {
+        } else if (movingFlag <= 65) {
             this.goLeft();
+        } else if (movingFlag <= 75) {
+            for (let i = 0; i < 3; i++) {
+                this.goRight();
+                basic.pause(1000/this.movingSpeed);
+            }
+        } else if (movingFlag <= 80) {
+            for (let i = 0; i < 3; i++) {
+                this.goLeft();
+                basic.pause(1000 / this.movingSpeed);
+            }
         }
     }
 
