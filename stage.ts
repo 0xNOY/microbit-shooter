@@ -187,20 +187,20 @@ class LoadingScreen {
     }
 
     startLoop() {
-        while (!this.isEnd) {
-            for (let i = 0; i < 8; i++) {
-                if (i < 2) {
-                    this.point[0]++;
-                } else if (i < 4) {
-                    this.point[1]++;
-                } else if (i < 6) {
-                    this.point[0]--;
-                } else {
-                    this.point[1]--;
-                }
-                this.reshowPoint();
-                basic.pause(1000 / this.fps);
+        for (let i = 0; i < 9 && !this.isEnd; i++) {
+            if (i < 2) {
+                this.point[0]++;
+            } else if (i < 4) {
+                this.point[1]++;
+            } else if (i < 6) {
+                this.point[0]--;
+            } else if (i < 8) {
+                this.point[1]--;
+            } else {
+                i = 0;
             }
+            this.reshowPoint();
+            basic.pause(1000 / this.fps);
         }
     }
 

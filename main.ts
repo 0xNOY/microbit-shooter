@@ -2,7 +2,6 @@ const LED_NUMBER = 5;
 
 enum RemoteSystemCommands {
     startGame = 10,
-    exitGame,
 }
 
 const menu = new Menu();
@@ -55,6 +54,7 @@ if (playerNumber == 1) {
     }
 
     loadingScreen.isEnd = true;
+    basic.pause(1);
 
     for (let i = 3; 0 <= i; i--) {
         basic.showNumber(i, 200);

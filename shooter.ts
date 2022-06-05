@@ -99,7 +99,7 @@ class Bot extends Player {
     }
 
     startLoopInBackground(bullets: Bullet[]) {
-        basic.pause(500);
+        basic.pause(1000);
         super.startLoopInBackground(bullets);
     }
 
