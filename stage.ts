@@ -197,7 +197,8 @@ class LoadingScreen {
             } else if (i < 8) {
                 this.point[1]--;
             } else {
-                i = 0;
+                i = -1;
+                continue;
             }
             this.reshowPoint();
             basic.pause(1000 / this.fps);

@@ -98,9 +98,9 @@ class Bot extends Player {
         this.position = [2, 0];
     }
 
-    startLoopInBackground(bullets: Bullet[]) {
-        basic.pause(1000);
-        super.startLoopInBackground(bullets);
+    startShootingLoop(bullets: Bullet[]) {
+        basic.pause(500);
+        super.startShootingLoop(bullets);
     }
 
     movingAction() {
