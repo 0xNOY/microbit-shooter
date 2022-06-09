@@ -31,8 +31,6 @@ menu.addEntry({
 });
 const playerNumber = menu.startLoop().value;
 
-input.onShake(() => control.reset());
-
 const stage = new Stage();
 if (playerNumber == 1) {
     stage.startLoop();

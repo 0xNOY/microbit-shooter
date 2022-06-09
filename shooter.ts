@@ -17,7 +17,7 @@ class Player {
         this.position = [2, 4];
         this.movingSpeed = 4;
         this.shootingSpeed = 1.5;
-        this.brightness = 100;
+        this.brightness = 50;
         this.isEnd = false;
         this.direction = 1;
         this.shouldSendCommand = false;
@@ -78,7 +78,7 @@ class Player {
         this.sendCommand(RemotePlayerCommands.shot);
         let bullet = new Bullet();
         bullet.position = this.position.slice();
-        bullet.position[1] += this.direction == 0 ? bullet.size-1 : -bullet.size+1;
+        bullet.position[1] += this.direction == 0 ? bullet.size : -bullet.size;
         bullet.direction = this.direction;
         control.inBackground(() => {bullet.loop()});
         return bullet;

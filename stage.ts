@@ -100,7 +100,7 @@ class Menu extends Stage {
         super();
         this.entries = [];
         this.entryDotBrightness =50;
-        this.iconBrightness = 200;
+        this.iconBrightness = 180;
     }
 
     startLoop(): MenuEntry {

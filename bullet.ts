@@ -17,8 +17,8 @@ class Bullet {
 
     loop() {
         while (!this.isEnd) {
-            this.proceed();
             basic.pause(1000 / this.speed);
+            this.proceed();
         }
     }
 
@@ -51,20 +51,21 @@ class Bullet {
     }
 
     proceed() {
-            if (this.direction == 0) {
-                if (this.position[1] < LED_NUMBER-1) {
-                    this.position[1]++;
-                } else {
-                    this.isEnd = true;
-                    this.size = 0;
-                }
-           } else {
-               if (0 < this.position[1]) {
-                   this.position[1]--;
-               } else {
-                   this.isEnd = true;
-                   this.size = 0;
-               }
+        if (this.direction == 0) {
+            if (this.position[1] < LED_NUMBER-1) {
+                this.position[1]++;
+            } else {
+                this.isEnd = true;
+                this.size = 0;
+            }
+        } else {
+            if (0 < this.position[1]) {
+               this.position[1]--;
+            } else {
+               this.isEnd = true;
+               this.size = 0;
            }
+       }
     }
-}       
+}
+
