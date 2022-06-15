@@ -1,5 +1,6 @@
 enum RemotePlayerCommands {
-    shot = 100,
+    shotA = 100,
+    shotB,
     goRight,
     goLeft,
 }
@@ -7,7 +8,8 @@ enum RemotePlayerCommands {
 class Player {
     position: number[];
     movingSpeed: number;
-    shootingSpeed: number;
+    shootingASpeed: number;
+    shootingBSpeed: number;
     brightness: number;
     isEnd: boolean;
     direction: number; // 0: Down, 1: Up
@@ -16,7 +18,8 @@ class Player {
     constructor() {
         this.position = [2, 4];
         this.movingSpeed = 4;
-        this.shootingSpeed = 1.5;
+        this.shootingASpeed = 1.2;
+        this.shootingBSpeed = 0.5;
         this.brightness = 50;
         this.isEnd = false;
         this.direction = 1;
@@ -38,7 +41,7 @@ class Player {
     startShootingLoop(bullets: Bullet[]) {
         while (!this.isEnd) {
             this.shootingAction(bullets);
-            basic.pause(1000 / this.shootingSpeed);
+            basic.pause(1000 / this.shootingASpeed);
         }
     }
 
@@ -53,8 +56,11 @@ class Player {
     shootingAction(bullets: Bullet[]) {
         while (!this.isEnd) {
             if (input.buttonIsPressed(Button.A)) {
-                bullets.push(this.shot());
+                bullets.push(this.shotA());
                 break;
+            } else if (input.buttonIsPressed(Button.B)) {
+                bullets.push(this.shotB());
+                basic.pause(1000/this.shootingBSpeed);
             }
             basic.pause(1);
         }
@@ -74,13 +80,23 @@ class Player {
         }
     }
 
-    shot(): Bullet {
-        this.sendCommand(RemotePlayerCommands.shot);
+    shotA(): Bullet {
+        this.sendCommand(RemotePlayerCommands.shotA);
         let bullet = new Bullet();
         bullet.position = this.position.slice();
         bullet.position[1] += this.direction == 0 ? bullet.size : -bullet.size;
         bullet.direction = this.direction;
         control.inBackground(() => {bullet.loop()});
+        return bullet;
+    }
+
+    shotB(): Bullet {
+        this.sendCommand(RemotePlayerCommands.shotB);
+        let bullet = new Shield();
+        bullet.position = this.position.slice();
+        bullet.position[1] += this.direction == 0 ? bullet.size : -bullet.size;
+        bullet.direction = this.direction;
+        control.inBackground(() => { bullet.loop() });
         return bullet;
     }
 
@@ -123,8 +139,11 @@ class Bot extends Player {
     }
 
     shootingAction(bullets: Bullet[]) {
-        if (randint(1, 100) <= 70) {
-            bullets.push(this.shot());
+        let flag = randint(1, 100);
+        if (flag <= 15) {
+            bullets.push(this.shotB());
+        } else if (flag <= 70) {
+            bullets.push(this.shotA());
         }
     }
 
@@ -136,14 +155,18 @@ class RemotePlayer extends Bot {
             while (!this.isEnd) {
                 const command = radio.receiveNumber();
                 switch (command) {
-                    case RemotePlayerCommands.goRight:
+                    case RemotePlayerCommands.goLeft:
                         this.goRight();
                         break;
-                    case RemotePlayerCommands.goLeft:
+                    case RemotePlayerCommands.goRight:
                         this.goLeft();
                         break;
-                    case RemotePlayerCommands.shot:
-                        bullets.push(this.shot());
+                    case RemotePlayerCommands.shotA:
+                        bullets.push(this.shotA());
+                        break;
+                    case RemotePlayerCommands.shotB:
+                        bullets.push(this.shotB());
+                        break;
                 }
                 basic.pause(1);
             }

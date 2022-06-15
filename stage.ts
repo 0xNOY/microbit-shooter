@@ -2,6 +2,7 @@ class Stage {
     player: Player;
     enemy: Player;
     bullets: Bullet[];
+    shieldIndex: {[position: string]: number};
     ledMap: LEDMap;
     isEnd: boolean;
     fps: number;
@@ -10,12 +11,16 @@ class Stage {
         this.player = new Player();
         this.enemy = new Bot();
         this.bullets = [];
+        this.shieldIndex = {};
         this.ledMap = new LEDMap(null);
         this.isEnd = false;
-        this.fps = 60;
+        this.fps = 240;
+
+        this.enemy.goLeft();
     }
 
     startLoop() {
+        this.player.goRight();
         this.player.startLoopInBackground(this.bullets);
         this.enemy.startLoopInBackground(this.bullets);
 
@@ -35,17 +40,31 @@ class Stage {
         this.player.isEnd = true;
         this.enemy.isEnd = true;
         this.bullets.forEach((b, i) => {
-            b.isEnd = true;
+            if (b != null) {
+                b.isEnd = true;
+            }
         });
         this.isEnd = true;
     }
 
     plotBulletsOnLEDMap() {
         for (let i = 0; i < this.bullets.length; i++) {
-            if (this.bullets[i].isEnd) {
+            if (this.bullets[i] == null) {
+                continue;
+            } else if (this.bullets[i].isEnd) {
                 this.bullets.splice(i, 1);
-            } else {
+            } else if (this.bullets[i].speed == 0) {
+                this.shieldIndex[this.bullets[i].position.join(",")] = i;
                 this.ledMap.stack(this.bullets[i].getLEDMap());
+            } else {
+                if (this.shieldIndex[this.bullets[i].position.join(",")] != null) {
+                    // this.bullets.splice(this.shieldIndex[this.bullets[i].position.join(",")], 1);
+                    this.bullets[this.shieldIndex[this.bullets[i].position.join(",")]] = null;
+                    this.bullets[i].isEnd = true;
+                    delete this.shieldIndex[this.bullets[i].position.join(",")];
+                } else {
+                    this.ledMap.stack(this.bullets[i].getLEDMap());
+                }
             }
         }
     }

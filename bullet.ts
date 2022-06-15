@@ -11,7 +11,7 @@ class Bullet {
         this.direction = 1;
         this.position = [0, 0];
         this.size = 1;
-        this.brightness = 255;
+        this.brightness = 250;
         this.isEnd = false;
     }
 
@@ -69,3 +69,31 @@ class Bullet {
     }
 }
 
+class TransparentBullet extends Bullet {
+    constructor() {
+        super();
+        this.speed = 2;
+    }
+
+    loop() {
+        control.inBackground(() => {
+            while (true) {
+                this.brightness = ((this.position[1] - 2) ** 2) * 127.5;
+                basic.pause(1);
+            }
+        });
+        super.loop();
+    }
+}
+
+class Shield extends Bullet {
+    constructor() {
+        super();
+        this.speed = 0;
+        this.brightness = 255;
+    }
+
+    loop() {
+        null
+    }
+}
