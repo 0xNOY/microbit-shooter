@@ -1,8 +1,8 @@
 enum RemotePlayerCommands {
-    shotA = 100,
-    shotB,
-    goRight,
-    goLeft,
+    ShotA = 100,
+    ShotB,
+    GoRight,
+    GoLeft,
 }
 
 class Player {
@@ -67,21 +67,21 @@ class Player {
     }
 
     goRight() {
-        this.sendCommand(RemotePlayerCommands.goRight);
+        this.sendCommand(RemotePlayerCommands.GoRight);
         if (this.position[0] < LED_NUMBER-1) {
             this.position[0]++;
         }
     }
 
     goLeft() {
-        this.sendCommand(RemotePlayerCommands.goLeft);
+        this.sendCommand(RemotePlayerCommands.GoLeft);
         if (0 < this.position[0]) {
             this.position[0]--;
         }
     }
 
     shotA(): Bullet {
-        this.sendCommand(RemotePlayerCommands.shotA);
+        this.sendCommand(RemotePlayerCommands.ShotA);
         let bullet = new Bullet();
         bullet.position = this.position.slice();
         bullet.position[1] += this.direction == 0 ? bullet.size : -bullet.size;
@@ -91,7 +91,7 @@ class Player {
     }
 
     shotB(): Bullet {
-        this.sendCommand(RemotePlayerCommands.shotB);
+        this.sendCommand(RemotePlayerCommands.ShotB);
         let bullet = new Shield();
         bullet.position = this.position.slice();
         bullet.position[1] += this.direction == 0 ? bullet.size : -bullet.size;
@@ -155,16 +155,16 @@ class RemotePlayer extends Bot {
             while (!this.isEnd) {
                 const command = radio.receiveNumber();
                 switch (command) {
-                    case RemotePlayerCommands.goLeft:
+                    case RemotePlayerCommands.GoLeft:
                         this.goRight();
                         break;
-                    case RemotePlayerCommands.goRight:
+                    case RemotePlayerCommands.GoRight:
                         this.goLeft();
                         break;
-                    case RemotePlayerCommands.shotA:
+                    case RemotePlayerCommands.ShotA:
                         bullets.push(this.shotA());
                         break;
-                    case RemotePlayerCommands.shotB:
+                    case RemotePlayerCommands.ShotB:
                         bullets.push(this.shotB());
                         break;
                 }

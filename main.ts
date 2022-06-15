@@ -1,7 +1,7 @@
 const LED_NUMBER = 5;
 
 enum RemoteSystemCommands {
-    startGame = 10,
+    StartGame = 10,
 }
 
 const menu = new Menu();
@@ -43,11 +43,11 @@ if (playerNumber == 1) {
 
     radio.setGroup(1);
     while (true) {
-        if (radio.receiveNumber() == RemoteSystemCommands.startGame) {
-            radio.sendNumber(RemoteSystemCommands.startGame);
+        if (radio.receiveNumber() == RemoteSystemCommands.StartGame) {
+            radio.sendNumber(RemoteSystemCommands.StartGame);
             break;
         }
-        radio.sendNumber(RemoteSystemCommands.startGame);
+        radio.sendNumber(RemoteSystemCommands.StartGame);
         basic.pause(1);
     }
 
