@@ -29,6 +29,14 @@ class LEDMap {
         this.plotBrightness(x, y, 255);
     }
 
+    toggle(x: number, y:number) {
+        if (this.map[x][y] == 0) {
+            this.plot(x, y);
+        } else {
+            this.plotBrightness(x, y, 0);
+        }
+    }
+
     clear() {
         this.map = this.generateEmptyMap();
     }

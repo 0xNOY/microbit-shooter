@@ -225,8 +225,14 @@ class LoadingScreen {
     }
 
     reshowPoint() {
-        this.ledMap.clear();
-        this.ledMap.plot(this.point[0], this.point[1]);
+        this.ledMap = new LEDMap([
+            [0,   0,   0,   0, 0],
+            [0, 255, 255, 255, 0],
+            [0, 255,   0, 255, 0],
+            [0, 255, 255, 255, 0],
+            [0,   0,   0,   0, 0],
+        ]);
+        this.ledMap.plotBrightness(this.point[0], this.point[1], 50);
         this.ledMap.show();
     }
 }
